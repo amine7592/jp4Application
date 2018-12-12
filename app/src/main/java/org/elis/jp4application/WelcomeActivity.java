@@ -1,12 +1,17 @@
 package org.elis.jp4application;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
 
 public class WelcomeActivity extends AppCompatActivity{
+
+    TextView welcomeTW,emailTv;
 
 
     @Override
@@ -16,10 +21,21 @@ public class WelcomeActivity extends AppCompatActivity{
 
         setContentView(R.layout.activity_welcome);
 
-        TextView welcomeTW= findViewById(R.id.welcome_tv);
+        welcomeTW= findViewById(R.id.welcome_tv);
+        emailTv= findViewById(R.id.email_tv);
 
-        String mail= getIntent().getStringExtra(MainActivity.WELCOME);
+        final String mail= getIntent().getStringExtra(MainActivity.WELCOME);
 
-        welcomeTW.setText(getString(R.string.welcome)+" "+mail);
+        emailTv.setText(mail);
+        emailTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri uri = Uri.parse("mailto:" + mail);
+                Intent sendMailIntent = new Intent(Intent.ACTION_SENDTO,uri);
+                startActivity(sendMailIntent);
+            }
+        });
+
+
     }
 }
