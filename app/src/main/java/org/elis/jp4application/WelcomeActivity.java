@@ -9,9 +9,9 @@ import android.view.View;
 import android.widget.TextView;
 
 
-public class WelcomeActivity extends AppCompatActivity{
+public class WelcomeActivity extends AppCompatActivity {
 
-    TextView welcomeTW,emailTv;
+    TextView welcomeTW, emailTv;
 
 
     @Override
@@ -21,10 +21,19 @@ public class WelcomeActivity extends AppCompatActivity{
 
         setContentView(R.layout.activity_welcome);
 
-        welcomeTW= findViewById(R.id.welcome_tv);
-        emailTv= findViewById(R.id.email_tv);
+        welcomeTW = findViewById(R.id.welcome_tv);
+        emailTv = findViewById(R.id.email_tv);
 
-        final String mail= getIntent().getStringExtra(MainActivity.WELCOME);
+
+        Intent intent = getIntent();
+
+       /* if(intent != null){
+            if(intent.getStringExtra(MainActivity.WELCOME) != null)
+                emailTv.setText(intent.getStringExtra(MainActivity.WELCOME));
+
+            else if(intent.getAction()!= null && intent.getAction() == Intent.ACTION_SENDTO)
+                emailTv.setText(intent.getData());
+        }
 
         emailTv.setText(mail);
         emailTv.setOnClickListener(new View.OnClickListener() {
@@ -34,7 +43,7 @@ public class WelcomeActivity extends AppCompatActivity{
                 Intent sendMailIntent = new Intent(Intent.ACTION_SENDTO,uri);
                 startActivity(sendMailIntent);
             }
-        });
+        });*/
 
 
     }
