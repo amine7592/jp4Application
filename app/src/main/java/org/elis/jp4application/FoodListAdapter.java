@@ -11,15 +11,31 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class
-FoodListAdapter extends RecyclerView.Adapter {
+public class FoodListAdapter extends RecyclerView.Adapter {
 
 
     private LayoutInflater mInflter;
-    private ArrayList<String> data;
+    private ArrayList<Food> data;
 
 
-    public FoodListAdapter(Context context, ArrayList<String> data){
+
+    private OnQuantityChange onQuantityChange;
+
+
+    public interface OnQuantityChange{
+        public void onItemAdded(float price);
+        public void onItemRemoved(float price);
+
+    }
+
+
+    public void setOnQuantityChange(OnQuantityChange onQuantityChange) {
+        this.onQuantityChange = onQuantityChange;
+    }
+
+
+
+    public FoodListAdapter(Context context, ArrayList<Food> data){
 
         this.data = data;
         mInflter = LayoutInflater.from(context);
@@ -41,13 +57,28 @@ FoodListAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
             FoodViewHolder foodViewHolder = (FoodViewHolder)viewHolder;
-            foodViewHolder.productName.setText(data.get(i));
+            Food currentFood = data.get(i);
+            foodViewHolder.productName.setText(currentFood.getName());
+            foodViewHolder.productPrice.setText(String.valueOf(currentFood.getPrice()));
+
+
+            foodViewHolder.productQty.setText(String.valueOf(currentFood.getQuantity()));
+
 
     }
 
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    private void addItem(){
+
+    }
+
+    private void removeItem(){
+
+
     }
 
 
@@ -61,10 +92,42 @@ FoodListAdapter extends RecyclerView.Adapter {
             super(itemView);
 
             productName = itemView.findViewById(R.id.item_name);
+            productPrice = itemView.findViewById(R.id.item_price);
+
+
+            productQty = itemView.findViewById(R.id.item_picker)
+                    .findViewById(R.id.quantity_tv);
+
+            addBtn = itemView.findViewById(R.id.item_picker).
+                    findViewById(R.id.add_btn);
+
+            removeBtn = itemView.findViewById(R.id.item_picker)
+                    .findViewById(R.id.remove_btn);
+
+            addBtn.setOnClickListener(this);
+            removeBtn.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
+
+            if(view.getId() == R.id.add_btn){
+                Food food = data.get(getAdapterPosition());
+                food.increaseQuantity();
+                notifyItemChanged(getAdapterPosition());
+
+                onQuantityChange.onItemAdded(food.getPrice());
+
+
+            }else if(view.getId() == R.id.remove_btn){
+                Food food = data.get(getAdapterPosition());
+                food.decreaseQuantity();
+                notifyItemChanged(getAdapterPosition());
+
+                onQuantityChange.onItemRemoved(food.getPrice());
+
+
+            }
 
         }
     }
