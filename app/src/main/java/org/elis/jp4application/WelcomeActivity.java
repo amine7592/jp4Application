@@ -5,14 +5,24 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 
 public class WelcomeActivity extends AppCompatActivity {
 
     TextView welcomeTW, emailTv;
 
+    RecyclerView recyclerView;
+
+    LinearLayoutManager layoutManager;
+    FoodListAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,26 +34,34 @@ public class WelcomeActivity extends AppCompatActivity {
         welcomeTW = findViewById(R.id.welcome_tv);
         emailTv = findViewById(R.id.email_tv);
 
+        recyclerView = findViewById(R.id.food_rv);
 
-        Intent intent = getIntent();
+        layoutManager = new LinearLayoutManager(this);
 
-       /* if(intent != null){
-            if(intent.getStringExtra(MainActivity.WELCOME) != null)
-                emailTv.setText(intent.getStringExtra(MainActivity.WELCOME));
+        ArrayList<String> foodList = new ArrayList<>();
 
-            else if(intent.getAction()!= null && intent.getAction() == Intent.ACTION_SENDTO)
-                emailTv.setText(intent.getData());
-        }
+        foodList.add("Milk");
+        foodList.add("Bread");
+        foodList.add("Bread");
+        foodList.add("Bread");
+        foodList.add("Bread");
+        foodList.add("Bread");
+        foodList.add("Bread");
+        foodList.add("Bread");
+        foodList.add("Bread");
+        foodList.add("Bread");
+        foodList.add("Bread");
+        foodList.add("Bread");
+        foodList.add("Bread");
 
-        emailTv.setText(mail);
-        emailTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Uri uri = Uri.parse("mailto:" + mail);
-                Intent sendMailIntent = new Intent(Intent.ACTION_SENDTO,uri);
-                startActivity(sendMailIntent);
-            }
-        });*/
+
+        adapter = new FoodListAdapter(this,foodList);
+
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+
 
 
     }
