@@ -15,12 +15,12 @@ public class FoodListAdapter extends RecyclerView.Adapter {
 
 
     private LayoutInflater mInflter;
-    private ArrayList<Food> data;
+    private ArrayList<Food> data = new ArrayList<>();
 
-
-
-    private OnQuantityChange onQuantityChange;
-
+    public void setData(ArrayList<Food> data) {
+        this.data = data;
+        notifyDataSetChanged();
+    }
 
     public interface OnQuantityChange{
         public void onItemAdded(float price);
@@ -29,9 +29,14 @@ public class FoodListAdapter extends RecyclerView.Adapter {
     }
 
 
+    private OnQuantityChange onQuantityChange;
+
+
     public void setOnQuantityChange(OnQuantityChange onQuantityChange) {
         this.onQuantityChange = onQuantityChange;
     }
+
+
 
 
 
@@ -41,6 +46,10 @@ public class FoodListAdapter extends RecyclerView.Adapter {
         mInflter = LayoutInflater.from(context);
 
 
+    }
+
+    public FoodListAdapter(Context context){
+        mInflter = LayoutInflater.from(context);
     }
 
 
@@ -112,18 +121,19 @@ public class FoodListAdapter extends RecyclerView.Adapter {
         public void onClick(View view) {
 
             if(view.getId() == R.id.add_btn){
+
                 Food food = data.get(getAdapterPosition());
                 food.increaseQuantity();
                 notifyItemChanged(getAdapterPosition());
-
                 onQuantityChange.onItemAdded(food.getPrice());
+
+
 
 
             }else if(view.getId() == R.id.remove_btn){
                 Food food = data.get(getAdapterPosition());
                 food.decreaseQuantity();
                 notifyItemChanged(getAdapterPosition());
-
                 onQuantityChange.onItemRemoved(food.getPrice());
 
 

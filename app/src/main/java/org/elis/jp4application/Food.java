@@ -1,5 +1,8 @@
 package org.elis.jp4application;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Food {
 
 
@@ -41,6 +44,13 @@ public class Food {
 
         this.name = name;
         this.price = price;
+    }
+
+    public Food(JSONObject jsonFood) throws JSONException {
+
+        name = jsonFood.getString("name");
+        price = jsonFood.getInt("price");
+
     }
 
 
